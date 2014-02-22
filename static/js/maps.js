@@ -58,8 +58,8 @@ function initialize() {
         map.fitBounds(bounds);
     });
 
-    google.maps.event.addListener(tosearchBox, 'places_changed', function () {
-        var places = tosearchBox.getPlaces();
+    google.maps.event.addListener(tosearchbox, 'places_changed', function () {
+        var places = tosearchbox.getPlaces();
 
         for (var i = 0, marker; marker = markers[i]; i++) {
             marker.setMap(null);
@@ -92,10 +92,10 @@ function initialize() {
         map.fitBounds(bounds);
     });
 
-    google.maps.event.addListener(map, 'bounds_changed', function () {
+    /*google.maps.event.addListener(map, 'bounds_changed', function () {
         var bounds = map.getBounds();
         searchBox.setBounds(bounds);
-    });
+    });*/
 
     google.maps.event.addListener(directionsDisplay, 'directions_changed', function () {
         computeTotalDistance(directionsDisplay.directions);
@@ -106,10 +106,12 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 $(function () {
 
+
+
     $("#submit").click(function(){
        var from=$("#from").val();
         var to=$("#to").val();
-         createnewFirebase();
+         createNewFirebase(to,from);
     });
     $("#addBtn").click(function () {
         var place = $("#target").val();
@@ -207,60 +209,39 @@ function sycnFB() {
 }
 
 
-function connectToFirebase() {
-    myDataRef = new Firebase(myDataPath + "map/" + params[0]);
-    myDataRef.on('value', function (snapshot) {
-        //We'll fill this in later.
-        if (snapshot.val() == null) {
-            console.log('creating new');
-            creatNewFirebase(params);
-            createNewUser((new Date().getTime()).toString(30), params[1], params[0]);
-        }
-        else {
-            if (!newUser(params)) {
-                $("span#mapID").html("Map ID: " + params[0]);
-                $("span#nickName").html("NickName: " + params[1]);
-                mapID = params[0];
-                userID = params[1];
-                console.log(snapshot.val());
-            }
-            else {
-                createNewUser(params[1]);
-            }
-        }
-    });
-}
 
 function createNewFirebase(to,from) {
-
+    $.cookie("user","mohit");
     mapID = (new Date().getTime()).toString(30);
+    console.log(mapID);
     userid=$.cookie("user");
     users = {};
     myDataRef = new Firebase(myDataPath + "map/" + mapID);
-    myDataRef.push({"to":to,"from":from,"owner":userid,"users":[]});
 
-    addUsersRef=new Firebase(myDataPath+"users/"+userid);
-    adduserRef.push({"mapids":[mapID]});
+    //myDataRef.set("to",to);
+    //myDataRef.set("from",from);
+    //myDataRef.set("owner",userid);
+    //myDataRef.set("users",[]);
+    myDataRef.set({"to":to,"from":from,"owner":userid,"users":[]});
+
+    insertDataForUser(userid);
+
 }
 
-function newUser(params) {
-    var myUserRef = new Firebase(myDataPath + "map/" + params[0] + "/users/" + params[1]);
-    myUserRef.on("value", function (snapshot) {
-        if (snapshot.val() == null) {
-            console.log("create new user");
-            createNewUser((new Date().getTime()).toString(30), params[1], params[0]);
+function insertDataForUser(id){
+    console.log('userid  ' + id);
+    var uss;
+    var userRef = new Firebase( myDataPath + "users/" + id + "/");
+    userRef.once('value', function(dsn){
+        if(dsn.val() == null){
+            addUsersRef=new Firebase(myDataPath + "users/" + id);
+            addUsersRef.update( { "mapids" : [mapID] });
         }
-        else {
-            console.log("user exists");
+        else{
+            uss = dsn.val();
+            uss['mapids'].push(mapID);
+            userRef.update(uss);
         }
     });
-    console.log("user" + myUserRef);
-}
 
-function createNewUser(userID, userName, mapID) {
-    var myUsersRef = new Firebase(myDataPath + "map/" + mapID + "/users");
-    var pushUsersRef = myUsersRef.push();
-    user = {};
-    user[userName] = userID;
-    pushUsersRef.set(user);
 }

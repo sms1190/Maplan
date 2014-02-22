@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template
+from firebase import firebase
 
 app = Flask(__name__)
 
@@ -15,6 +16,9 @@ def main_page():
 
 @app.route('/map/<id>')
 def get_map():
+
+
+
     return render_template('map.html')
 
 if __name__ == '__main__':
