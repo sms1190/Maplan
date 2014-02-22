@@ -7,7 +7,7 @@ var directionsService = new google.maps.DirectionsService();
 var map;
 var mapID;
 var userID;
-var myDataPath = 'https://go-maps.firebaseIO.com/';
+var myDataPath = 'https://coolmap.firebaseIO.com/';
 var myDataRef;
 
 function initialize() {
@@ -19,12 +19,47 @@ function initialize() {
         new google.maps.LatLng(-33.8474, 151.2631));
     map.fitBounds(defaultBounds);
 
-    var input = /** @type {HTMLInputElement} */(document.getElementById('target'));
-    var searchBox = new google.maps.places.SearchBox(input);
+    var frombox = document.getElementById('from');
+    var fromsearchBox = new google.maps.places.SearchBox(frombox);
+    var tobox=document.getElementById('to');
+    var tosearchbox=new google.maps.places.SearchBox(tobox);
 
+    google.maps.event.addListener(fromsearchBox, 'places_changed', function () {
+        var places = fromsearchBox.getPlaces();
 
-    google.maps.event.addListener(searchBox, 'places_changed', function () {
-        var places = searchBox.getPlaces();
+        for (var i = 0,marker; marker = markers[i]; i++) {
+            marker.setMap(null);
+        }
+
+        //markers = [];
+        var bounds = new google.maps.LatLngBounds();
+        for (var i = 0, place; place = places[i]; i++) {
+            var image = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25)
+            };
+
+            var marker = new google.maps.Marker({
+                map: map,
+                icon: image,
+                title: place.name,
+                position: place.geometry.location
+            });
+
+            console.log(marker);
+            markers.push(marker);
+
+            bounds.extend(place.geometry.location);
+        }
+
+        map.fitBounds(bounds);
+    });
+
+    google.maps.event.addListener(tosearchBox, 'places_changed', function () {
+        var places = tosearchBox.getPlaces();
 
         for (var i = 0, marker; marker = markers[i]; i++) {
             marker.setMap(null);
@@ -165,7 +200,7 @@ function computeTotalDistance(result) {
 
 /** Firebase Code **/
 function sycnFB() {
-    var user = new Firebase('https://go-maps.firebaseIO.com/' + "map/" + mapID + "/users/" + userID);
+    var user = new Firebase('https://coolmap.firebaseIO.com/' + "map/" + mapID + "/users/" + userID);
 }
 
 
