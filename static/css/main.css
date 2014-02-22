@@ -1,0 +1,115 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, input {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+        content: '';
+        content: none;
+    }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+html, body {
+    background: url('../images/sky.jpg') black;
+    height: 100%;
+    width: 100%;
+    color: white;
+    font-family: Consolas, 'Lucida Console', 'DejaVu Sans Mono', monospace;
+    font-size: 15px;
+}
+
+div#mainBody {
+    float: left;
+    height: 94%;
+    width: 100%;
+}
+
+div#bodyContainer {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    position: relative;
+    height: 100%;
+    padding: 15px;
+}
+
+div#heading{
+    height:50px;
+    color: #0C4212;
+    font-size:30px;
+    padding-top:20px;
+}
+
+div#navigationChoice {
+    -moz-box-shadow: 0px -10px 14px rgba(255,255,255, 0.14);
+    -webkit-box-shadow: 0px -10px 14px rgba(255,255,255, 0.14);
+    box-shadow: 0px -10px 14px rgba(255,255,255, 0.14);
+    text-align:center;
+    padding-top:10%;
+}
+
+div#mainContent {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 10px;
+}
+
+div#inputContainer {
+    height: 6%;
+    width: 100%;
+}
+
+input#commandBar {
+    background-color: black;
+    border: 2px dotted green;
+    width: 100%;
+    height: 70%;
+    color: #0C4212;
+    padding: 5px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+}
+
+span.command {
+    color: #148C30;
+}
