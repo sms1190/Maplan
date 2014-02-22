@@ -9,6 +9,9 @@ def hello_world():
     return render_template('home.html')
     #return 'Hello World!'
 
+@app.route('/main')
+def main_page():
+    return render_template('main.html')
 
 @app.route('/map/<id>')
 def get_map():
