@@ -49,7 +49,6 @@ table {
 
 
 html, body {
-    background: url('../images/sky.jpg') black;
     height: 100%;
     width: 100%;
     color: white;
@@ -117,7 +116,26 @@ span.command {
 body {
   padding-top: 50px;
 }
+
 .starter-template {
   padding: 40px 15px;
   text-align: center;
+}
+
+div.map-welcome{
+    position: absolute;
+    background-color: cyan;
+    z-index: 1000;
+    height:500px;
+    width: 500px;
+    margin-left: 20%;
+
+}
+
+
+div.welcome-start-trip-view{
+    margin-top: 50px;
+    width: 150px;
+    display: block;
+    margin-left: 15%;
 }

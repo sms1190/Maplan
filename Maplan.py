@@ -10,5 +10,9 @@ def hello_world():
     #return 'Hello World!'
 
 
+@app.route('/map/<id>')
+def get_map():
+    return render_template('map.html')
+
 if __name__ == '__main__':
     app.run()
