@@ -19,9 +19,9 @@ function initialize() {
         new google.maps.LatLng(-33.8474, 151.2631));
     map.fitBounds(defaultBounds);
 
-    var frombox = document.getElementById('from');
+    var frombox = document.getElementById('fromplace');
     var fromsearchBox = new google.maps.places.SearchBox(frombox);
-    var tobox=document.getElementById('to');
+    var tobox=document.getElementById('toplace');
     var tosearchbox=new google.maps.places.SearchBox(tobox);
 
     google.maps.event.addListener(fromsearchBox, 'places_changed', function () {
