@@ -6,6 +6,7 @@ from firebase import firebase
 app = Flask(__name__)
 setattr(app, 'auth_token', '')
 setattr(app, 'uname', '')
+setattr(app, 'email', '')
 
 
 @app.route('/')
@@ -13,9 +14,11 @@ def hello_world():
     if app.auth_token is '':
         return render_template('index.html')
     else:
-        print app.uname
-        return render_template('main.html', name=app.uname)
+        return render_template('main.html', name=app.uname, email=app.email)
 
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 @app.route('/authorize')
 def authorize():
@@ -24,20 +27,22 @@ def authorize():
 
 @app.route('/savetoken', methods=['POST'])
 def save_token():
-    print 'here'
     app.auth_token = request.form['q']
     app.uname = request.form['name']
-    #print request.form['q']
+    app.email = request.form['email']
     return 'success'
 
 
 @app.route('/map/<mapid>')
 def get_map(mapid):
-    f = firebase.FirebaseApplication('https://coolmap.firebaseIO.com', None)
-    map = f.get('/map/' + mapid, None)
-    print map
+    if app.auth_token == '':
+        return render_template('index.html')
+    else:
+        f = firebase.FirebaseApplication('https://coolmap.firebaseIO.com', None)
+        map = f.get('/map/' + mapid, None)
+        print map
 
-    return render_template('map.html',mapid=mapid)
+        return render_template('map.html', mapid=mapid, name='vaibbhav')
 
 @app.route('/map/view_maps')
 def get_all_maps():

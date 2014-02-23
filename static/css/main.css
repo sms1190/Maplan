@@ -171,3 +171,7 @@ border: 1px solid black;position: absolute;margin-top: 200px;padding-top:50px;
 .btn3{
     margin-left: 800px;
 }
+
+.pac-container{
+    z-index:1200;
+}

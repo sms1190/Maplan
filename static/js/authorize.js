@@ -4,11 +4,11 @@
 
 $(function(){
     token = window.location.hash.split('#')[1].split('&')[0].split('=')[1];
-    uname = getUserInfo(token);
+    data = getUserInfo(token);
     $.ajax({
         type: "POST",
         url: window.location.origin + '/savetoken',
-        data: {q: token, name: uname},
+        data: {q: token, name: data[0], email: data[1]},
         success: function(){
             window.location.href = window.location.origin;
         }
@@ -26,6 +26,6 @@ function getUserInfo(token) {
     var a = req.response;
     if (req.status != 401) {
         var b = jQuery.parseJSON(a);
-        return b.name;
+        return [b.name, b.email];
     }
 }

@@ -6,7 +6,7 @@ var directionsDisplay = new google.maps.DirectionsRenderer();
 var directionsService = new google.maps.DirectionsService();
 var map;
 var mapID;
-var userID;
+var userid;
 var myDataPath = 'https://coolmap.firebaseIO.com/';
 var myDataRef;
 
@@ -106,7 +106,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 $(function () {
 
-
+    $.cookie('user', $('span#user').text());
+    $.cookie('email', $('span#email').text());
 
     $("#submit").click(function(){
        var from=$("#fromplace").val();
@@ -211,11 +212,9 @@ function sycnFB() {
 
 
 function createNewFirebase(toname,fromname) {
-    $.cookie("user","mohit");
     mapID = (new Date().getTime()).toString(30);
     console.log(mapID);
-    userid=$.cookie("user");
-    users = {};
+    userid = $.cookie("user");
     myDataRef = new Firebase(myDataPath + "map/" + mapID);
 
     //myDataRef.set("to",to);
@@ -227,17 +226,17 @@ function createNewFirebase(toname,fromname) {
     tolanlat={"lan":markers[1].position.d,"lat":markers[1].position.e,"title":toname};
     myDataRef.set({"to":tolanlat,"from":fromlanlat,"owner":userid});
 
-    insertDataForUser(userid);
+    insertDataForUser();
 
 }
 
-function insertDataForUser(id){
-    console.log('userid  ' + id);
+function insertDataForUser(){
+    console.log('userid  ' + userid);
     var uss;
-    var userRef = new Firebase( myDataPath + "users/" + id + "/");
+    var userRef = new Firebase( myDataPath + "users/" + userid + "/");
     userRef.once('value', function(dsn){
         if(dsn.val() == null){
-            addUsersRef=new Firebase(myDataPath + "users/" + id);
+            addUsersRef=new Firebase(myDataPath + "users/" + userid);
             addUsersRef.update( { "mapids" : [mapID] });
         }
         else{
