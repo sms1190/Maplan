@@ -14,12 +14,14 @@ def hello_world():
 def main_page():
     return render_template('main.html')
 
-@app.route('/map/<id>')
-def get_map():
+@app.route('/map/<mapid>')
+def get_map(mapid):
+    f = firebase.FirebaseApplication('https://coolmap.firebaseIO.com', None)
+    map = f.get('/map/' + mapid, None)
 
+    print map
 
-
-    return render_template('map.html')
+    return 'hello'
 
 if __name__ == '__main__':
     app.run()
