@@ -21,7 +21,11 @@ def get_map(mapid):
 
     print map
 
-    return 'hello'
+    return render_template('map.html',mapid=mapid)
+
+@app.route('/map/view_maps')
+def get_all_maps():
+    return render_template('view_maps.html')
 
 if __name__ == '__main__':
     app.run()

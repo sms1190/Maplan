@@ -109,8 +109,8 @@ $(function () {
 
 
     $("#submit").click(function(){
-       var from=$("#from").val();
-        var to=$("#to").val();
+       var from=$("#fromplace").val();
+        var to=$("#toplace").val();
          createNewFirebase(to,from);
     });
     $("#addBtn").click(function () {
@@ -210,7 +210,7 @@ function sycnFB() {
 
 
 
-function createNewFirebase(to,from) {
+function createNewFirebase(toname,fromname) {
     $.cookie("user","mohit");
     mapID = (new Date().getTime()).toString(30);
     console.log(mapID);
@@ -222,7 +222,10 @@ function createNewFirebase(to,from) {
     //myDataRef.set("from",from);
     //myDataRef.set("owner",userid);
     //myDataRef.set("users",[]);
-    myDataRef.set({"to":to,"from":from,"owner":userid,"users":[]});
+    console.log(toname);
+    fromlanlat={"lan":markers[0].position.d,"lat":markers[0].position.e,"title":fromname};
+    tolanlat={"lan":markers[1].position.d,"lat":markers[1].position.e,"title":toname};
+    myDataRef.set({"to":tolanlat,"from":fromlanlat,"owner":userid});
 
     insertDataForUser(userid);
 
@@ -243,5 +246,8 @@ function insertDataForUser(id){
             userRef.update(uss);
         }
     });
+    setTimeout(function (){
+    window.location.href=window.location.href+"map/"+mapID;
+    },1000);
 
 }
